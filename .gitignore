@@ -1,0 +1,4 @@
+# Project exclude paths
+/store-commons/target/
+/store-front-user/target/
+/store-gateway/target/
