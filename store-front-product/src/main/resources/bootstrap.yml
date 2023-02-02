@@ -1,8 +1,8 @@
 spring:
   application:
-    name: static-service
+    name: product-service
   cloud:
     nacos:
       server-addr: 160.6.65.108:8848
 server:
-  port: 3002
+  port: 3004
