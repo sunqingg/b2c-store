@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PictureMappr pictureMappr;
 
+    @Cacheable(value = "list.product",key = "#categoryName")
     @Override
     public R promo(Category category) {
 //        List<Category> data = (List<Category>) categoryClient.hots(category).getData();

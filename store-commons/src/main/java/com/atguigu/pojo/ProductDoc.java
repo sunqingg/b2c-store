@@ -1,7 +1,13 @@
 package com.atguigu.pojo;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class ProductDoc extends Product{
     private String all;
+
     public ProductDoc(Product product) {
         super(product.getProductId(),product.getProductName(),
                 product.getCategoryId(),product.getProductTitle(),
@@ -9,8 +15,6 @@ public class ProductDoc extends Product{
                 product.getProductPrice(),product.getProductSellingPrice(),
                 product.getProductNum(),product.getProductSales());
         this.all = product.getProductName()+product.getProductTitle()+product.getProductIntro();
+
     }
-
-
-
 }

@@ -4,41 +4,34 @@ import com.atguigu.clients.ProductClient;
 import com.atguigu.pojo.Product;
 import com.atguigu.pojo.ProductDoc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import com.fasterxml.jackson.databind.ObjectReader;
+import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
-
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * projectName: b2c-cloud-store
- *
- * @author: 赵伟风
- * description: 监控程序启动,初始化es数据
- */
-@Slf4j
 @Component
 public class ApplicationRunListener implements ApplicationRunner {
-
-
-    @Autowired
-    private RestHighLevelClient client;
 
     @Autowired
     private ProductClient productClient;
 
+    @Autowired
+    private RestHighLevelClient client;
     private String createIndex = "{\n" +
             "  \"mappings\": {\n" +
             "    \"properties\": {\n" +
@@ -88,47 +81,33 @@ public class ApplicationRunListener implements ApplicationRunner {
             "  }\n" +
             "}";
 
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        //数据库数据初始化
-        //查询全部数据
-        List<Product> list = productClient.list();
-
-        //判断是否存在product索引
         GetIndexRequest getIndexRequest = new GetIndexRequest("product");
         boolean exists = client.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
-
-
-        if (!exists){
-            //不存在,创建新索引
+        if (!exists) {
             CreateIndexRequest createIndexRequest = new CreateIndexRequest("product");
             createIndexRequest.source(createIndex, XContentType.JSON);
             client.indices().create(createIndexRequest,RequestOptions.DEFAULT);
         }
 
-        //删除全部数据
-        DeleteByQueryRequest deleteIndexRequest = new DeleteByQueryRequest("product");
-        deleteIndexRequest.setQuery(QueryBuilders.matchAllQuery());
-        client.deleteByQuery(deleteIndexRequest,RequestOptions.DEFAULT);
+        DeleteByQueryRequest deleteByQueryRequest = new DeleteByQueryRequest("product");
+        deleteByQueryRequest.setQuery(QueryBuilders.matchAllQuery());
+        client.deleteByQuery(deleteByQueryRequest,RequestOptions.DEFAULT);
 
-
-
-        //插入全部数据
-        BulkRequest bulkRequest = new BulkRequest();
+        BulkRequest bulkRequest = new BulkRequest("product");
         ObjectMapper objectMapper = new ObjectMapper();
-        for (Product product : list) {
+        List<Product> lists = productClient.list();
+        for (Product product : lists) {
             ProductDoc productDoc = new ProductDoc(product);
-            log.info(productDoc.toString());
+//            bulkRequest.add(new IndexRequest("product").id(productDoc.getCategoryId().toString())
+//                    .source(objectMapper.writeValueAsBytes(productDoc),XContentType.JSON));
 
             bulkRequest.add(new IndexRequest("product")
                     .id(productDoc.getProductId().toString())
                     .source(objectMapper.writeValueAsString(productDoc),XContentType.JSON));
         }
-
         client.bulk(bulkRequest,RequestOptions.DEFAULT);
-
-        log.info("ApplicationRunListener.run业务结束，完成数据更新!");
 
     }
 }

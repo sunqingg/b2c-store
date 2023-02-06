@@ -6,6 +6,7 @@ import com.atguigu.service.SearchSearvice;
 import com.atguigu.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SearhServiceImpl implements SearchSearvice {
     /**
      * 通过关键字搜索商品
@@ -34,6 +36,7 @@ public class SearhServiceImpl implements SearchSearvice {
 
     @Override
     public R searchProduct(SearchProductParam searchProductParam) {
+        log.info(searchProductParam.toString());
         String search = searchProductParam.getSearch();
         SearchRequest searchRequest = new SearchRequest("product");
 
@@ -68,6 +71,7 @@ public class SearhServiceImpl implements SearchSearvice {
                 throw new RuntimeException(e);
             }
         }
+
         return R.ok(null,products,total);
 
     }
