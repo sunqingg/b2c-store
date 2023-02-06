@@ -12,7 +12,7 @@ public interface CategoryClient {
     @PostMapping("/category/hots")
     R hots(Category category);
 
-    @PostMapping("/category/byName")
+    @PostMapping("/category/hots")
     R byName(Category category);
     @GetMapping("/category/list")
     R list();

@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PictureMappr pictureMappr;
 
-    @Cacheable(value = "list.product",key = "#categoryName")
+    @Cacheable(value = "list.product",key = "#category.getCategoryName()")
     @Override
     public R promo(Category category) {
 //        List<Category> data = (List<Category>) categoryClient.hots(category).getData();
