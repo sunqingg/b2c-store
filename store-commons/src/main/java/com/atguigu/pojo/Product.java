@@ -4,13 +4,17 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("product")
 public class Product {
     @TableId(type = IdType.AUTO)
-    @JsonProperty("product_id")
+    @JsonProperty("productID")
     private Integer productId;
 
     @JsonProperty("product_name")

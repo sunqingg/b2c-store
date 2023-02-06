@@ -9,6 +9,6 @@ import lombok.Data;
 @TableName("category")
 public class Category {
     @TableId(type = IdType.AUTO)
-    private  Integer categoryId;
+    private Integer categoryId;
     private String categoryName;
 }

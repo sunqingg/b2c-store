@@ -5,4 +5,8 @@ import com.atguigu.utils.R;
 
 public interface CategoryService {
     R hots(Category category);
+
+    R byName(Category category);
+
+    R list();
 }

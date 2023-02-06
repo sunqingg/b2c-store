@@ -24,3 +24,8 @@ spring:
           uri: lb://category-service #静态资源处理以及oss上传服务!
           predicates:
             - Path=/category/**
+
+        - id: search-service  # 类别服务
+          uri: lb://search-service
+          predicates:
+            - Path=/search/**

@@ -1,5 +1,6 @@
 package com.atguigu;
 
+import com.atguigu.clients.CategoryClient;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @MapperScan("com.atguigu.mapper")
-@EnableFeignClients
+@EnableFeignClients(clients = {CategoryClient.class})
 public class ProductApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductApplication.class,args);
