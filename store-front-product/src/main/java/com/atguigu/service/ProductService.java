@@ -46,4 +46,6 @@ public interface ProductService {
      * @return
      */
     List<Product> list();
+
+    List<Product> ids(List<Integer> list);
 }

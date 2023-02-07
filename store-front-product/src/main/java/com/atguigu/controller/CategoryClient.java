@@ -82,4 +82,10 @@ public class CategoryClient {
     public List<Product> list(){
         return productService.list();
     }
+
+    @PostMapping("ids")
+    public List<Product> ids(@RequestBody List<Integer> list) {
+        return productService.ids(list);
+    }
+
 }

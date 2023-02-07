@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,7 +32,8 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     PictureMappr pictureMappr;
 
-    @Cacheable(value = "list.product",key = "#category.getCategoryName()")
+    // redis中key的名字是lost.product::电视机(category.categoryName)
+    @Cacheable(value = "list.product",key = "#category.categoryName")
     @Override
     public R promo(Category category) {
 //        List<Category> data = (List<Category>) categoryClient.hots(category).getData();
@@ -141,5 +143,15 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productMapper.selectList(null);
         return products;
 
+    }
+
+    @Override
+    public List<Product> ids(List<Integer> list) {
+//        List<Product> productList = new ArrayList<>();
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("product_id",list);
+
+        List<Product> products = productMapper.selectList(queryWrapper);
+        return products;
     }
 }
