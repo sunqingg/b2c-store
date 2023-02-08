@@ -4,15 +4,14 @@ import com.atguigu.clients.ProductClient;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@MapperScan("com.atguigu.mapper")
-@EnableCaching
 @EnableFeignClients(clients = ProductClient.class)
-public class CollectApplication {
+@MapperScan("com.atguigu.mapper")
+public class CartApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CollectApplication.class,args);
+        SpringApplication.run(CartApplication.class,args);
+
     }
 }

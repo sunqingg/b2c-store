@@ -48,4 +48,6 @@ public interface ProductService {
     List<Product> list();
 
     List<Product> ids(List<Integer> list);
+
+    Product id(Integer integer);
 }

@@ -149,9 +149,18 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> ids(List<Integer> list) {
 //        List<Product> productList = new ArrayList<>();
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("product_id",list);
+        queryWrapper.in(list != null && list.size() > 0,"product_id",list);
 
         List<Product> products = productMapper.selectList(queryWrapper);
         return products;
+    }
+
+    @Override
+    public Product id(Integer integer) {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.in("product_id",integer);
+
+        Product product = productMapper.selectOne(queryWrapper);
+        return product;
     }
 }
