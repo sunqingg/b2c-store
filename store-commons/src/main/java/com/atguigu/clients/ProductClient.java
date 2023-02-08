@@ -14,4 +14,7 @@ public interface ProductClient {
 
     @PostMapping("/product/ids")
     List<Product> ids(List<Integer> list);
+
+    @PostMapping("/product/id")
+    Product id(Integer integer);
 }

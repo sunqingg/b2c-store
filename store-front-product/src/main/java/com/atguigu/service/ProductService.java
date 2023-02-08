@@ -1,13 +1,16 @@
 package com.atguigu.service;
 
 import com.atguigu.param.ByCategoryParam;
+import com.atguigu.param.ProductParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Product;
 import com.atguigu.utils.R;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductService extends IService<Product> {
 
     /**
      * 通过类型找商品
@@ -48,4 +51,8 @@ public interface ProductService {
     List<Product> list();
 
     List<Product> ids(List<Integer> list);
+
+    void batchNum(List<ProductParam> productParams);
+
+    Product id(Integer integer);
 }
