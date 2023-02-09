@@ -5,24 +5,30 @@ import com.atguigu.clients.CategoryClient;
 import com.atguigu.mapper.PictureMappr;
 import com.atguigu.mapper.ProductMapper;
 import com.atguigu.param.ByCategoryParam;
+import com.atguigu.param.ProductParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Picture;
 import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
     @Autowired
     ProductMapper productMapper;
 
@@ -149,18 +155,56 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> ids(List<Integer> list) {
 //        List<Product> productList = new ArrayList<>();
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in(list != null && list.size() > 0,"product_id",list);
+        queryWrapper.in("product_id",list);
 
         List<Product> products = productMapper.selectList(queryWrapper);
         return products;
     }
 
     @Override
+    public void batchNum(List<ProductParam> productParams) {
+        Map<Integer,ProductParam> productParamMap = productParams.stream()
+                .collect(Collectors.toMap(ProductParam::getProductId,v -> v));
+        Set<Integer> productIds = productParamMap.keySet();
+
+        List<Product> productList = baseMapper.selectBatchIds(productIds);
+
+        for (Product product : productList) {
+            product.setProductNum(product.getProductNum() - productParamMap.get(product.getProductId()).getProductNum());
+
+            product.setProductSales(product.getProductSales() + productParamMap.get(product.getProductId()).getProductNum());
+
+        }
+        this.updateBatchById(productList);
+
+    }
+
+    @Override
     public Product id(Integer integer) {
-        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("product_id",integer);
+        QueryWrapper<Product> queryWrapper =new QueryWrapper<>();
+        queryWrapper.eq("product_id",integer);
 
         Product product = productMapper.selectOne(queryWrapper);
         return product;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -60,14 +60,7 @@
         <dependency>
             <artifactId>store-commons</artifactId>
             <groupId>com.atguigu</groupId>
-            <version>1.0-SNAPSHOT </version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!--AMQP依赖，包含RabbitMQ-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-
     </dependencies>
 </project>
