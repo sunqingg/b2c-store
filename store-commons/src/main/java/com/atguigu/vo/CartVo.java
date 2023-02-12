@@ -26,6 +26,7 @@ public class CartVo {
         this.productName = product.getProductName();
         this.productImg = product.getProductPicture();
         this.price = product.getProductPrice();
+        this.num = cart.getNum();
         this.maxNum = product.getProductSales();
         this.check = false;
     }
