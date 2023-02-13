@@ -2,7 +2,7 @@ package com.atguigu.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.clients.CategoryClient;
-import com.atguigu.mapper.PictureMappr;
+import com.atguigu.mapper.PictureMapper;
 import com.atguigu.mapper.ProductMapper;
 import com.atguigu.param.ByCategoryParam;
 import com.atguigu.param.ProductParam;
@@ -12,22 +12,21 @@ import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-
+@Slf4j
 public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
     @Autowired
     ProductMapper productMapper;
@@ -36,7 +35,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
     CategoryClient categoryClient;
 
     @Autowired
-    PictureMappr pictureMappr;
+    PictureMapper pictureMapper;
 
     // redis中key的名字是lost.product::电视机(category.categoryName)
     @Cacheable(value = "list.product",key = "#category.categoryName")
@@ -133,7 +132,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         QueryWrapper<Picture> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_id",product.getProductId());
 
-        Picture selectOne = pictureMappr.selectOne(queryWrapper);
+        Picture selectOne = pictureMapper.selectOne(queryWrapper);
 
         return R.ok(selectOne);
 
@@ -163,6 +162,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Override
     public void batchNum(List<ProductParam> productParams) {
+        log.info("++++++++++++" +productParams.toString());
         Map<Integer,ProductParam> productParamMap = productParams.stream()
                 .collect(Collectors.toMap(ProductParam::getProductId,v -> v));
         Set<Integer> productIds = productParamMap.keySet();

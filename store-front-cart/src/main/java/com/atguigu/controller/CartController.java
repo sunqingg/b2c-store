@@ -21,5 +21,17 @@ public class CartController {
         return cartService.save1(cart);
     }
 
+    @PostMapping("update")
+    public R update(@RequestBody Cart cart){
+        return cartService.update(cart);
+    }
 
+    @PostMapping("list")
+    public R list(@RequestBody Cart cart){
+        return cartService.list(cart);
+    }
+    @PostMapping("remove")
+    public R remove(@RequestBody Cart cart){
+        return cartService.remove(cart);
+    }
 }

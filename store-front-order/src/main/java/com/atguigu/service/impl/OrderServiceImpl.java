@@ -9,20 +9,24 @@ import com.atguigu.service.OrderService;
 import com.atguigu.utils.R;
 import com.atguigu.vo.CartVo;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OrderServiceImpl extends ServiceImpl<OrderMapper,Order> implements OrderService {
 
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Transactional
     @Override
     public R save(OrderParam orderParam) {
         Integer userId = orderParam.getUserId();
@@ -49,11 +53,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper,Order> implements 
             ProductParam productParam = new ProductParam();
             productParam.setProductId(cartVo.getProductId());
             productParam.setProductNum(cartVo.getNum());
+            productParams.add(productParam);
         }
         this.saveBatch(orderList);
-
+        log.info(productParams.toString()+ "----" + cartIds);
         rabbitTemplate.convertAndSend("topic.ex","sub.number",productParams);
-        rabbitTemplate.convertAndSend("ropic.ex","clear.cart",cartIds);
+        rabbitTemplate.convertAndSend("topic.ex","clear.cart",cartIds);
 
         return R.ok("订单生成成功");
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class CartVo {
     private Integer id; //购物车id
     private Integer productId; //商品id
@@ -26,7 +26,8 @@ public class CartVo {
         this.productName = product.getProductName();
         this.productImg = product.getProductPicture();
         this.price = product.getProductPrice();
-        this.maxNum = product.getProductSales();
+        this.num = cart.getNum();
+        this.maxNum = product.getProductNum();
         this.check = false;
     }
 }

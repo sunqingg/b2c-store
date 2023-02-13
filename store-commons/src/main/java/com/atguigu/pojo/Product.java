@@ -18,6 +18,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @TableName("product")
 public class Product implements Serializable {
+
     @TableId(type = IdType.AUTO)
     @JsonProperty("productID")
     private Integer productId;

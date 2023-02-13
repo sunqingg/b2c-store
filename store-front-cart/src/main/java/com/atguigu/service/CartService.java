@@ -12,7 +12,13 @@ public interface CartService {
     void removeBatchIds(List<Integer> cartIds);
 
 
-    R save(Cart cart);
+//    R save(Cart cart);
 
     R save1(Cart cart);
+
+    R update(Cart cart);
+
+    R list(Cart cart);
+
+    R remove(Cart cart);
 }
