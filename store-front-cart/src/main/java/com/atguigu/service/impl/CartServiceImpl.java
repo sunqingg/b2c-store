@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 @Service
 @Slf4j
@@ -52,11 +53,10 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
             return R.ok("添加成功",cartVo);
         }else {
             Integer num = cart1.getNum() +1;
-//            log.info(cart1.getNum().toString() + "-------"+ num.toString());
+            cart.setId(cart1.getId());
             cart.setNum(num);
-//            log.info(cart.toString());
-//            cartMapper.updateById(cart1);
-            cartMapper.update(cart,queryWrapper);
+            log.info(cart.toString() + "--------"+ num.toString());
+            cartMapper.updateById(cart);
             return R.ok("商品已存在,购物车数量+1");
         }
 
@@ -65,41 +65,30 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
     }
 
     @Override
-    public R update(Cart cart) {
-        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("product_id",cart.getProductId());
-        queryWrapper.eq("user_id",cart.getUserId());
-//        queryWrapper.eq("num",cart.getNum());
+    public R list(Cart cart) {
+        QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
+        cartQueryWrapper.eq("user_id",cart.getUserId());
 
-        Product product = productClient.id(cart.getProductId());
+        List<Cart> cartList = this.list(cartQueryWrapper);
+        log.info(cartList.toString());
 
-//        Assert.isTrue(product != null, "商品不存在添加失败");
-//        Assert.isTrue(cart.getNum() <= product.getProductNum(), "库存不足");
-        if (product == null){
-            return R.fail("商品不存在添加失败");
-        } else if (cart.getNum() > product.getProductNum()) {
-            return R.fail("库存不足");
-        }else {
-            Cart selectOne = cartMapper.selectOne(queryWrapper);
-            selectOne.setNum(cart.getNum());
-            cartMapper.updateById(selectOne);
-            return R.ok("购物车添加成功");
+        List<CartVo> cartVoList = new ArrayList<>();
+        for (Cart cart1 : cartList) {
+            Product product = productClient.id(cart1.getProductId());
+            CartVo cartVo = new CartVo(product,cart1);
+            cartVoList.add(cartVo);
         }
+        return R.ok(cartVoList);
     }
 
     @Override
-    public R list(Cart cart) {
+    public R update(Cart cart) {
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",cart.getUserId());
-        queryWrapper.select("product_id");
+        queryWrapper.eq("product_id",cart.getProductId());
 
-        List<Cart> cartList = cartMapper.selectList(queryWrapper);
-        List<Integer> list = new ArrayList<>();
-        for (Cart cart1 : cartList) {
-            list.add(cart1.getProductId());
-        }
-        List<Product> products = productClient.ids(list);
-        return R.ok(products);
+        this.update(cart,queryWrapper);
+        return R.ok("修改购物车数量成功");
     }
 
     @Override
@@ -108,10 +97,8 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
         queryWrapper.eq("user_id",cart.getUserId());
         queryWrapper.eq("product_id",cart.getProductId());
 
-        cartMapper.delete(queryWrapper);
-        return R.ok("删除购物车成功");
+        this.remove(queryWrapper);
+        return R.ok("修改数量成功");
     }
-
-
 }
 

@@ -1,9 +1,11 @@
 package com.atguigu.controller;
 
 import com.atguigu.param.OrderParam;
+import com.atguigu.pojo.Order;
 import com.atguigu.service.OrderService;
 import com.atguigu.utils.R;
 import com.atguigu.vo.CartVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,4 +25,8 @@ public class OrderController {
         return orderService.save(orderParam);
     }
 
+    @PostMapping("list")
+    public R list(@RequestBody Order order) throws JsonProcessingException {
+        return orderService.list(order);
+    }
 }

@@ -16,9 +16,9 @@ public interface CartService {
 
     R save1(Cart cart);
 
-    R update(Cart cart);
-
     R list(Cart cart);
+
+    R update(Cart cart);
 
     R remove(Cart cart);
 }
