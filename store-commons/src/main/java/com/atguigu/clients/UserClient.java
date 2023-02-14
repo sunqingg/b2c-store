@@ -15,7 +15,7 @@ public interface UserClient {
     public R list(@RequestBody PageParam param);
 
     @PostMapping("/user/remove")
-    public R remove(@RequestBody User user);
+    public R remove(@RequestBody Integer userId);
 
     @PostMapping("/user/update")
     public R update(@RequestBody User user);

@@ -51,9 +51,10 @@ public class AdminProductController {
     public R update(Product product){
         return   adminProductService.update(product);
     }
+
     @PostMapping("remove")
-    public R remove(AdminProductParam adminProductParam){
-        return   adminProductService.remove(adminProductParam);
+    public R remove(Product product){
+        return   adminProductService.remove(product);
     }
 
 

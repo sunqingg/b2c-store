@@ -145,9 +145,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public R remove(User user) {
-
-        userMapper.deleteById(user);
+    public R remove(Integer userId) {
+        log.info(userId.toString());
+        userMapper.deleteById(userId);
         return R.ok("删除成功");
     }
 

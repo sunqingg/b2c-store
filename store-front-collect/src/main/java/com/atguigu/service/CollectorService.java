@@ -10,4 +10,6 @@ public interface CollectorService {
     R list(Collect collect);
 
     R remove(Collect collect);
+
+    Object removeByPid(Integer productId);
 }

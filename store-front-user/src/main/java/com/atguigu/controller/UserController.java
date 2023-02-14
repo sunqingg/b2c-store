@@ -75,8 +75,8 @@ public class UserController {
     }
 
     @PostMapping("remove")
-    public R remove(@RequestBody User user){
-        return userService.remove(user);
+    public R remove(@RequestBody Integer userId){
+        return userService.remove(userId);
 
     }
 

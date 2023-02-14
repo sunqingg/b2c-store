@@ -1,7 +1,10 @@
 package com.atguigu.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.atguigu.clients.CartClient;
 import com.atguigu.clients.CategoryClient;
+import com.atguigu.clients.CollectClient;
+import com.atguigu.clients.OrderClient;
 import com.atguigu.mapper.PictureMapper;
 import com.atguigu.mapper.ProductMapper;
 import com.atguigu.param.ByCategoryParam;
@@ -43,6 +46,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    CartClient cartClient;
+
+    @Autowired
+    OrderClient orderClient;
+
+    @Autowired
+    CollectClient collectClient;
 
     // redis中key的名字是lost.product::电视机(category.categoryName)
     @Cacheable(value = "list.product",key = "#category.categoryName")
@@ -236,9 +248,36 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Override
     public R remove(Product product) {
-        int id = productMapper.deleteById(product);
+        R check = cartClient.check(product.getProductId());
+        if (check.getCode().equals("004")) {
+            return check;
+        }
+
+        R check1 = orderClient.check(product.getProductId());
+        if (check1.getCode().equals("004")){
+            return check1;
+        }
+
+//        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq("")
+        pictureMapper.deleteById(product);
+
+        collectClient.removeByPid(product.getProductId());
+
+        int rows = productMapper.deleteById(product);
+
+        if (rows == 0 ){
+            return R.fail("删除商品失败");
+        }
 
         rabbitTemplate.convertAndSend("topic.ex","delete.product",product.getProductId());
+
+        try{
+            Thread.sleep(500);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return R.ok("商品删除成功");
     }
 }
 

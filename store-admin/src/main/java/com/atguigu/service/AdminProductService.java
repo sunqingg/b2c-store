@@ -16,5 +16,5 @@ public interface AdminProductService {
 
     R update(Product product);
 
-    R remove(AdminProductParam adminProductParam);
+    R remove(Product product);
 }

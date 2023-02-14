@@ -69,4 +69,16 @@ public class CollectorServiceImpl implements CollectorService {
         collectMapper.delete(queryWrapper);
         return R.ok("shanchuchenggong");
     }
+
+    @Override
+    public Object removeByPid(Integer productId) {
+
+        QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",productId);
+
+        int rows = collectMapper.delete(queryWrapper);
+
+        return R.ok(rows);
+    }
+
 }

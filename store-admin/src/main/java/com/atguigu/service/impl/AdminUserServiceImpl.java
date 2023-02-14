@@ -19,8 +19,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-
 @Service
 @Slf4j
 public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser> implements AdminUserService {
@@ -65,21 +63,21 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
             //删除,清空缓存集合
             //删除,清空对应单条id的数据
             evict = {
-                    @CacheEvict(value = "list.user",allEntries = true),
-                    @CacheEvict(value = "user",key = "#user.userId" )
+                    @CacheEvict(value = "list.user",allEntries = true)
+//                    , @CacheEvict(value = "user",key = "#user.userId" )
             }
     )
     @Override
-    public R remove(User user) {
+    public R remove(Integer userId) {
 
-        return userClient.remove(user);
+        return userClient.remove(userId);
     }
     @Caching(
             //删除,清空缓存集合
             //删除,清空对应单条id的数据
             evict = {
-                    @CacheEvict(value = "list.user",allEntries = true),
-                    @CacheEvict(value = "user",key = "#user.userId" )
+                    @CacheEvict(value = "list.user",allEntries = true)
+//                    , @CacheEvict(value = "user",key = "#user.userId" )
             }
     )
     @Override
@@ -90,8 +88,8 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
             //删除,清空缓存集合
             //删除,清空对应单条id的数据
             evict = {
-                    @CacheEvict(value = "list.user",allEntries = true),
-                    @CacheEvict(value = "user",key = "#user.userId" )
+                    @CacheEvict(value = "list.user",allEntries = true)
+//                    , @CacheEvict(value = "user",key = "#user.userId")
             }
     )
     @Override

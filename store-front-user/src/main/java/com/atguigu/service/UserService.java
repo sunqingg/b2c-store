@@ -41,7 +41,7 @@ public interface UserService {
 
     R list(PageParam param);
 
-    R remove(User user);
+    R remove(Integer userId);
 
     R update(User user);
 

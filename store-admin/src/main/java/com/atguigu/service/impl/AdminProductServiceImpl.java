@@ -43,8 +43,8 @@ public class AdminProductServiceImpl implements AdminProductService {
     }
 
     @Override
-    public R remove(AdminProductParam adminProductParam) {
-        return null;
+    public R remove(Product product) {
+        return productClient.remove(product);
     }
 
 }

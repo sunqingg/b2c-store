@@ -46,4 +46,9 @@ public class CartController {
         return cartService.remove(cart);
     }
 
+    @PostMapping("check")
+    public R check(Integer integer) {
+        return cartService.check(integer);
+    }
+
 }

@@ -25,4 +25,6 @@ public interface ProductClient {
     R save(@RequestBody ProductSaveParam saveParam);
     @PostMapping("update")
     public R update(Product product);
+    @PostMapping("remove")
+    public R remove(@RequestBody Product product);
 }

@@ -69,8 +69,8 @@ public class AdminUserController {
 
     @PostMapping ("remove")
     @ResponseBody
-    public R remove(User user) {
-        return adminUserService.remove(user);
+    public R remove(Integer userId) {
+        return adminUserService.remove(userId);
     }
 
     @PostMapping ("update")

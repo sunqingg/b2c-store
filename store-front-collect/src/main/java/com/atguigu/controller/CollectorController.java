@@ -30,4 +30,9 @@ public class CollectorController {
     public R remove(@RequestBody @Validated Collect collect) {
         return collectorService.remove(collect);
     }
+
+    @PostMapping("remove/bypid")
+    public Object removeByPid(@RequestBody Integer productId){
+        return collectorService.removeByPid(productId);
+    }
 }

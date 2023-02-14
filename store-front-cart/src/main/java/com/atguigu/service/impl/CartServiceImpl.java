@@ -100,5 +100,19 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
         this.remove(queryWrapper);
         return R.ok("修改数量成功");
     }
+
+    @Override
+    public R check(Integer integer) {
+
+        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",integer);
+
+        Long count = cartMapper.selectCount(queryWrapper);
+
+        if (count == 0) {
+            return R.ok("购物车没有此类商品");
+        }
+        return R.fail("购物车中存在要删除的商品");
+    }
 }
 

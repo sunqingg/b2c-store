@@ -21,4 +21,6 @@ public interface CartService {
     R update(Cart cart);
 
     R remove(Cart cart);
+
+    R check(Integer integer);
 }
