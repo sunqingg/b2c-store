@@ -14,7 +14,7 @@ import java.io.Serializable;
 @TableName("orders")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Order implements Serializable {
-
+    public static final Long serialVersionUID = 1L;
     @TableId(type = IdType.AUTO)
     private Integer id;
     @JsonProperty("order_id")

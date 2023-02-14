@@ -1,9 +1,9 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.constant.UserConstants;
 import com.atguigu.mapper.AddressMapper;
 import com.atguigu.mapper.UserMapper;
-import com.atguigu.param.PagePram;
-import com.atguigu.pojo.AdminUser;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 //@Log4j
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -132,57 +134,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object listPage(PagePram pagePram) {
-
-        IPage<User> userIPage =new Page<>(pagePram.getCurrentPage(),pagePram.getPageSize());
-//        userIPage.setCurrent(pagePram.getCurrentPage());
-//        userIPage.setSize(pagePram.getPageSize());
-
-        IPage<User> page = userMapper.selectPage(userIPage, null);
+    public R list(PageParam param) {
+        IPage<User> userIpage = new Page<>(param.getCurrentPage(),param.getPageSize());
+        IPage<User> page = userMapper.selectPage(userIpage, null);
         List<User> records = page.getRecords();
+        log.info(records.toString());
         long total = page.getTotal();
-        return R.ok("查询成功!",records,total);
+        return R.ok("查询成功",records,total);
+
     }
 
     @Override
-    public R remove(Integer integer) {
+    public R remove(User user) {
 
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",integer);
-
-        userMapper.delete(queryWrapper);
+        userMapper.deleteById(user);
         return R.ok("删除成功");
     }
 
     @Override
-    public R update(AdminUser adminUser) {
-        User user = new User();
-        user.setUserId(adminUser.getUserId());
-        user.setUserName(adminUser.getUserAccount());
-        user.setPassword(adminUser.getUserPassword());
-        user.setUserPhonenumber(adminUser.getUserPhone());
-
-        QueryWrapper<User> queryWrapper=  new QueryWrapper<>();
+    public R update(User user) {
+        String newPwd = MD5Util.encode(user.getPassword() + USER_SALT);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id",user.getUserId());
-        queryWrapper.eq("password",user.getPassword());
-
-        Long count = userMapper.selectCount(queryWrapper);
-        if (count == 0){
-            user.setPassword(MD5Util.encode(user.getPassword() + USER_SALT));
-        }
-
-        int rows = userMapper.updateById(user);
-        if (rows != 0) {
+        queryWrapper.eq("user_name",user.getUserName());
+        queryWrapper.eq("user_phonenumber",user.getUserPhonenumber());
+        Long aLong = userMapper.selectCount(queryWrapper);
+        if (aLong == 0 ) {
+            userMapper.updateById(user);
             return R.ok("修改成功");
-
         }else {
-            return R.fail("修改失败");
+            return R.fail("密码一样的哦!");
         }
+
     }
 
     @Override
     public R save(User user) {
-        this.save(user);
+        String newPwd = MD5Util.encode(user.getPassword() + USER_SALT);
+        user.setPassword(newPwd);
+        System.err.println(user.toString());
+        userMapper.insert(user);
         return R.ok("保存成功");
     }
 }

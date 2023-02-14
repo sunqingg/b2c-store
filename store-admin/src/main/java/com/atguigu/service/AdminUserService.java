@@ -1,7 +1,7 @@
 package com.atguigu.service;
 
-import com.atguigu.param.AdminUserParam;
-import com.atguigu.param.PagePram;
+import com.atguigu.param.AdminParam;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.AdminUser;
 import com.atguigu.pojo.User;
 import com.atguigu.utils.R;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 
 //@Component
 public interface AdminUserService extends IService<AdminUser> {
-    R login(AdminUserParam adminUserParam);
+    R login(AdminParam adminParam);
 
-    Object list(PagePram pagePram);
+    R list(PageParam param);
 
-    R remove(AdminUser adminUser);
+    R remove(User user);
 
-    R update(AdminUser adminUser);
+    R update(User user);
 
     R save(User user);
 }

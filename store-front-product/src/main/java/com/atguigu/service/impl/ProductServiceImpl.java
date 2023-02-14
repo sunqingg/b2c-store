@@ -2,32 +2,35 @@ package com.atguigu.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.atguigu.clients.CategoryClient;
-import com.atguigu.mapper.PictureMappr;
+import com.atguigu.mapper.PictureMapper;
 import com.atguigu.mapper.ProductMapper;
 import com.atguigu.param.ByCategoryParam;
 import com.atguigu.param.ProductParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Picture;
 import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-
+@Slf4j
 public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> implements ProductService {
     @Autowired
     ProductMapper productMapper;
@@ -36,7 +39,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
     CategoryClient categoryClient;
 
     @Autowired
-    PictureMappr pictureMappr;
+    PictureMapper pictureMapper;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     // redis中key的名字是lost.product::电视机(category.categoryName)
     @Cacheable(value = "list.product",key = "#category.categoryName")
@@ -133,7 +139,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         QueryWrapper<Picture> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("product_id",product.getProductId());
 
-        Picture selectOne = pictureMappr.selectOne(queryWrapper);
+        Picture selectOne = pictureMapper.selectOne(queryWrapper);
 
         return R.ok(selectOne);
 
@@ -163,6 +169,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Override
     public void batchNum(List<ProductParam> productParams) {
+        log.info("++++++++++++" +productParams.toString());
         Map<Integer,ProductParam> productParamMap = productParams.stream()
                 .collect(Collectors.toMap(ProductParam::getProductId,v -> v));
         Set<Integer> productIds = productParamMap.keySet();
@@ -186,6 +193,52 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
         Product product = productMapper.selectOne(queryWrapper);
         return product;
+    }
+
+    @Override
+    public R save(ProductSaveParam productSaveParam) {
+        Product product = new Product();
+        BeanUtils.copyProperties(productSaveParam, product);
+        String pictures = productSaveParam.getPicture();
+
+        if (!StringUtils.isEmpty(pictures)) {
+            String[] pics = pictures.split("\\+");
+            for (String pic : pics) {
+                Picture picture = new Picture();
+                picture.setIntro(null);
+                picture.setProductId(product.getProductId());
+                picture.setProductPicture(pic);
+                pictureMapper.insert(picture);
+            }
+
+        }
+        int rows = productMapper.insert(product);
+
+        if (rows == 0){
+            return R.fail("商品保存失败");
+        }
+        rabbitTemplate.convertAndSend("topic.ex","insert.product",product);
+        return R.ok("商品数据保存成功");
+
+    }
+
+    @Override
+    public R update(Product product) {
+        int rows = productMapper.updateById(product);
+
+        if (rows == 0){
+            return R.fail("商品数据更新失败");
+        }
+
+        rabbitTemplate.convertAndSend("topic.ex","insert.product",product);
+        return R.ok("商品数据更新成功");
+    }
+
+    @Override
+    public R remove(Product product) {
+        int id = productMapper.deleteById(product);
+
+        rabbitTemplate.convertAndSend("topic.ex","delete.product",product.getProductId());
     }
 }
 

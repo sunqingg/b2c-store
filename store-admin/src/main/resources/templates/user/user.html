@@ -72,7 +72,7 @@
         icon: 'layui-icon-tips'
       }],
       cols: [[
-        {field: 'user_id', width: 80, title: 'ID', sort: true},
+        {field: 'userId', width: 80, title: 'ID', sort: true},
         {field: 'userName', width: 100, title: '账号'},
         {field: 'password', width: 140, title: '密码'},
         {field: 'userPhonenumber', width: 120, title: '手机号'},
@@ -171,7 +171,7 @@
           success:function (layero,index) {
             var body = layer.getChildFrame('body', index);
             //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
-            body.find("#userId").val(userInfo.user_id);
+            body.find("#userId").val(userInfo.userId);
             //body.find("#userName").val(userInfo.userName);
             body.find("#userAccount").val(userInfo.userName);
             body.find("#userPassword").val(userInfo.password);

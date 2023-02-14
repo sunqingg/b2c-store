@@ -1,22 +1,24 @@
 package com.atguigu.controller;
 
-import com.atguigu.param.PagePram;
-import com.atguigu.pojo.AdminUser;
+import com.atguigu.mapper.UserMapper;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
 import com.atguigu.utils.R;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
+
+    @Autowired
+    UserMapper userMapper;
 
     @Autowired
     private UserService userService;
@@ -66,22 +68,28 @@ public class UserController {
         }
         return userService.addressRemove(address);
     }
+    @GetMapping("list")
+    public R list(@RequestBody PageParam param){
+        return userService.list(param);
 
-    @PostMapping("list")
-    public Object listPage(@RequestBody PagePram pagePram){
-        return  userService.listPage(pagePram);
     }
+
     @PostMapping("remove")
-    public R remove(Integer integer){
-        return userService.remove(integer);
+    public R remove(@RequestBody User user){
+        return userService.remove(user);
+
     }
+
     @PostMapping("update")
-    public R update(AdminUser adminUser){
-        return userService.update(adminUser);
+    public R update(@RequestBody User user){
+        return userService.update(user);
+
     }
 
     @PostMapping("save")
-    public R save(User user){
+    public R save(@RequestBody User user){
         return userService.save(user);
+
     }
+
 }

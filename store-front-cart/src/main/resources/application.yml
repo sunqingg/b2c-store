@@ -1,7 +1,7 @@
 spring:
   # 连接池配置
   datasource:
-    url: jdbc:mysql://192.168.1.14:3306/store_cart?useSSL=false
+    url: jdbc:mysql://160.6.64.64:3306/store_cart?useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver

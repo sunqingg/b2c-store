@@ -1,29 +1,25 @@
 package com.atguigu.clients;
 
-import com.atguigu.param.PagePram;
-import com.atguigu.pojo.AdminUser;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.User;
 import com.atguigu.utils.R;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient("user-service")
-
-
 public interface UserClient {
 
+    @GetMapping("/user/list")
+    public R list(@RequestBody PageParam param);
 
-    @PostMapping("/usr/list")
-    R listPage(@RequestBody PagePram pagePram);
-
-    @PostMapping("/usr/remove")
-    R remove(Integer userId);
+    @PostMapping("/user/remove")
+    public R remove(@RequestBody User user);
 
     @PostMapping("/user/update")
-    R update(AdminUser adminUser);
+    public R update(@RequestBody User user);
 
     @PostMapping("/user/save")
-    R save(User user);
+    public R save(@RequestBody User user);
 }

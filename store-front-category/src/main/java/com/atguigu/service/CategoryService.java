@@ -1,5 +1,6 @@
 package com.atguigu.service;
 
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.utils.R;
 
@@ -12,5 +13,13 @@ public interface CategoryService {
 
     R list();
 
-    List<Category> clist();
+    List<Category> alist();
+
+    R adminList(PageParam pageParam);
+
+    R adminSave(Category category);
+
+    R adminUpdate(Category category);
+
+    R adminRemove(Category category);
 }

@@ -1,7 +1,6 @@
 package com.atguigu.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -9,8 +8,8 @@ import java.util.Date;
 
 @Data
 @TableName("admin_user")
+
 public class AdminUser {
-    @TableId(type = IdType.AUTO)
     private Integer userId;
     private String userName;
     private String userAccount;
