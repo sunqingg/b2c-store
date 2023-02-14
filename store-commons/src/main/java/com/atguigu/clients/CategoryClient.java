@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @FeignClient("category-service")
 public interface CategoryClient {
 
@@ -16,4 +18,6 @@ public interface CategoryClient {
     R byName(Category category);
     @GetMapping("/category/list")
     R list();
+    @GetMapping("category/clist")
+    List<Category> clist();
 }

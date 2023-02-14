@@ -33,4 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryMapper.selectList(null);
         return R.ok("查询成功",categories);
     }
+
+    @Override
+    public List<Category> clist() {
+        List<Category> categories = categoryMapper.selectList(null);
+        return categories;
+
+    }
 }

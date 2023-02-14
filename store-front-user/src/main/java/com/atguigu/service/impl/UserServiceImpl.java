@@ -2,12 +2,16 @@ package com.atguigu.service.impl;
 
 import com.atguigu.mapper.AddressMapper;
 import com.atguigu.mapper.UserMapper;
+import com.atguigu.param.PagePram;
+import com.atguigu.pojo.AdminUser;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
 import com.atguigu.utils.MD5Util;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +129,60 @@ public class UserServiceImpl implements UserService {
             return R.ok("删除成功!");
         }
 
+    }
+
+    @Override
+    public Object listPage(PagePram pagePram) {
+
+        IPage<User> userIPage =new Page<>(pagePram.getCurrentPage(),pagePram.getPageSize());
+//        userIPage.setCurrent(pagePram.getCurrentPage());
+//        userIPage.setSize(pagePram.getPageSize());
+
+        IPage<User> page = userMapper.selectPage(userIPage, null);
+        List<User> records = page.getRecords();
+        long total = page.getTotal();
+        return R.ok("查询成功!",records,total);
+    }
+
+    @Override
+    public R remove(Integer integer) {
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",integer);
+
+        userMapper.delete(queryWrapper);
+        return R.ok("删除成功");
+    }
+
+    @Override
+    public R update(AdminUser adminUser) {
+        User user = new User();
+        user.setUserId(adminUser.getUserId());
+        user.setUserName(adminUser.getUserAccount());
+        user.setPassword(adminUser.getUserPassword());
+        user.setUserPhonenumber(adminUser.getUserPhone());
+
+        QueryWrapper<User> queryWrapper=  new QueryWrapper<>();
+        queryWrapper.eq("user_id",user.getUserId());
+        queryWrapper.eq("password",user.getPassword());
+
+        Long count = userMapper.selectCount(queryWrapper);
+        if (count == 0){
+            user.setPassword(MD5Util.encode(user.getPassword() + USER_SALT));
+        }
+
+        int rows = userMapper.updateById(user);
+        if (rows != 0) {
+            return R.ok("修改成功");
+
+        }else {
+            return R.fail("修改失败");
+        }
+    }
+
+    @Override
+    public R save(User user) {
+        this.save(user);
+        return R.ok("保存成功");
     }
 }

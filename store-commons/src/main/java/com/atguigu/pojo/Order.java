@@ -12,6 +12,7 @@ import java.io.Serializable;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @TableName("orders")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order implements Serializable {
 
     @TableId(type = IdType.AUTO)

@@ -1,5 +1,7 @@
 package com.atguigu.controller;
 
+import com.atguigu.param.PagePram;
+import com.atguigu.pojo.AdminUser;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
@@ -63,5 +65,23 @@ public class UserController {
             R.fail("传参数错误！");
         }
         return userService.addressRemove(address);
+    }
+
+    @PostMapping("list")
+    public Object listPage(@RequestBody PagePram pagePram){
+        return  userService.listPage(pagePram);
+    }
+    @PostMapping("remove")
+    public R remove(Integer integer){
+        return userService.remove(integer);
+    }
+    @PostMapping("update")
+    public R update(AdminUser adminUser){
+        return userService.update(adminUser);
+    }
+
+    @PostMapping("save")
+    public R save(User user){
+        return userService.save(user);
     }
 }

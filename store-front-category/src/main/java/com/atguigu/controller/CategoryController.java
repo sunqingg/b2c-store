@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("category")
 public class CategoryController {
@@ -24,5 +26,11 @@ public class CategoryController {
     @GetMapping("list")
     public R list(){
         return categoryService.list();
+    }
+
+
+    @GetMapping("clist")
+    public List<Category> clist(){
+        return categoryService.clist();
     }
 }
