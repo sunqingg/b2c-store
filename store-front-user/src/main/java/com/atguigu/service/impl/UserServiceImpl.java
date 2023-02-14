@@ -1,15 +1,20 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.constant.UserConstants;
 import com.atguigu.mapper.AddressMapper;
 import com.atguigu.mapper.UserMapper;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
 import com.atguigu.utils.MD5Util;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +25,7 @@ import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 //@Log4j
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -125,5 +131,49 @@ public class UserServiceImpl implements UserService {
             return R.ok("删除成功!");
         }
 
+    }
+
+    @Override
+    public R list(PageParam param) {
+        IPage<User> userIpage = new Page<>(param.getCurrentPage(),param.getPageSize());
+        IPage<User> page = userMapper.selectPage(userIpage, null);
+        List<User> records = page.getRecords();
+        log.info(records.toString());
+        long total = page.getTotal();
+        return R.ok("查询成功",records,total);
+
+    }
+
+    @Override
+    public R remove(User user) {
+
+        userMapper.deleteById(user);
+        return R.ok("删除成功");
+    }
+
+    @Override
+    public R update(User user) {
+        String newPwd = MD5Util.encode(user.getPassword() + USER_SALT);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id",user.getUserId());
+        queryWrapper.eq("user_name",user.getUserName());
+        queryWrapper.eq("user_phonenumber",user.getUserPhonenumber());
+        Long aLong = userMapper.selectCount(queryWrapper);
+        if (aLong == 0 ) {
+            userMapper.updateById(user);
+            return R.ok("修改成功");
+        }else {
+            return R.fail("密码一样的哦!");
+        }
+
+    }
+
+    @Override
+    public R save(User user) {
+        String newPwd = MD5Util.encode(user.getPassword() + USER_SALT);
+        user.setPassword(newPwd);
+        System.err.println(user.toString());
+        userMapper.insert(user);
+        return R.ok("保存成功");
     }
 }

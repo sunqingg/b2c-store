@@ -6,7 +6,6 @@ import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
 import com.atguigu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("product")
-public class CategoryClient {
+public class ProductController {
     @Autowired
     ProductService productService;
 

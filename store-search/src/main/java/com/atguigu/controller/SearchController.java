@@ -18,13 +18,13 @@ public class SearchController {
     @PostMapping("product")
     public R searchProduct(@RequestBody SearchProductParam searchProductParam, BindingResult bindResult){
         if (bindResult.hasErrors()) {
-            return R.fail("chuangcancuowu");
+            return R.fail("传参错误");
         }
         return searchSearvice.searchProduct(searchProductParam);
     }
     @PostMapping("test")
     public String test(){
-        return "testxxx";
+        return "test";
     }
 
 }

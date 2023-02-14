@@ -1,5 +1,6 @@
 package com.atguigu.service;
 
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.utils.R;
@@ -37,4 +38,12 @@ public interface UserService {
     R addressSave(address address);
 
     R addressRemove(address address);
+
+    R list(PageParam param);
+
+    R remove(User user);
+
+    R update(User user);
+
+    R save(User user);
 }
