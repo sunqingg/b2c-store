@@ -1,6 +1,7 @@
 package com.atguigu.controller;
 
 import com.atguigu.param.ByCategoryParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 @RestController
 @RequestMapping("product")
@@ -95,5 +97,18 @@ public class ProductController {
 //    public Product id(@RequestBody Integer integer) {
 //        return productService.id(integer);
 //    }
+    @PostMapping("save")
+    public R save(@RequestBody ProductSaveParam productSaveParam){
+        return productService.save(productSaveParam);
+    }
 
+    @PostMapping("update")
+    public R update(@RequestBody Product product){
+        return productService.update(product);
+    }
+
+    @PostMapping("remove")
+    public R remove(@RequestBody Product product) {
+        return productService.remove(product);
+    }
 }

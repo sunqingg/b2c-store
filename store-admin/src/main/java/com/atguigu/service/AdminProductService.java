@@ -1,7 +1,9 @@
 package com.atguigu.service;
 
 import com.atguigu.param.AdminProductParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.param.SearchProductParam;
+import com.atguigu.pojo.Product;
 import com.atguigu.utils.R;
 
 public interface AdminProductService {
@@ -10,9 +12,9 @@ public interface AdminProductService {
     R upload(AdminProductParam adminProductParam);
 
 
-    R save(AdminProductParam adminProductParam);
+    R save(ProductSaveParam adminProductParam);
 
-    R update(AdminProductParam adminProductParam);
+    R update(Product product);
 
     R remove(AdminProductParam adminProductParam);
 }

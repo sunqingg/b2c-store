@@ -2,7 +2,9 @@ package com.atguigu.controller;
 
 import com.atguigu.config.AliyunOSSUtils;
 import com.atguigu.param.AdminProductParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.param.SearchProductParam;
+import com.atguigu.pojo.Product;
 import com.atguigu.service.AdminProductService;
 import com.atguigu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +44,12 @@ public class AdminProductController {
 
     }
     @PostMapping("save")
-    public R save(AdminProductParam adminProductParam){
-        return   adminProductService.save(adminProductParam);
+    public R save(ProductSaveParam productSaveParam){
+        return   adminProductService.save(productSaveParam);
     }
     @PostMapping("update")
-    public R update(AdminProductParam adminProductParam){
-        return   adminProductService.update(adminProductParam);
+    public R update(Product product){
+        return   adminProductService.update(product);
     }
     @PostMapping("remove")
     public R remove(AdminProductParam adminProductParam){

@@ -2,6 +2,7 @@ package com.atguigu.service;
 
 import com.atguigu.param.ByCategoryParam;
 import com.atguigu.param.ProductParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Product;
 import com.atguigu.utils.R;
@@ -55,4 +56,10 @@ public interface ProductService extends IService<Product> {
     void batchNum(List<ProductParam> productParams);
 
     Product id(Integer integer);
+
+    R save(ProductSaveParam productSaveParam);
+
+    R update(Product product);
+
+    R remove(Product product);
 }

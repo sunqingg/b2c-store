@@ -1,20 +1,24 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.clients.ProductClient;
 import com.atguigu.clients.SearchClient;
 import com.atguigu.param.AdminProductParam;
+import com.atguigu.param.ProductSaveParam;
 import com.atguigu.param.SearchProductParam;
+import com.atguigu.pojo.Product;
 import com.atguigu.service.AdminProductService;
 import com.atguigu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.websocket.server.ServerEndpoint;
 
 @Service
 public class AdminProductServiceImpl implements AdminProductService {
 
     @Autowired
     SearchClient searchClient;
+
+    @Autowired
+    ProductClient productClient;
 
 
     @Override
@@ -23,13 +27,13 @@ public class AdminProductServiceImpl implements AdminProductService {
     }
 
     @Override
-    public R save(AdminProductParam adminProductParam) {
-        return null;
+    public R save(ProductSaveParam productSaveParam) {
+        return productClient.save(productSaveParam);
     }
 
     @Override
-    public R update(AdminProductParam adminProductParam) {
-        return null;
+    public R update(Product product) {
+        return productClient.update(product);
 
     }
 
