@@ -171,7 +171,7 @@
           success:function (layero,index) {
             var body = layer.getChildFrame('body', index);
             //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
-            body.find("#userId").val(userInfo.userId);
+            body.find("#userId").val(userInfo.user_id);
             //body.find("#userName").val(userInfo.userName);
             body.find("#userAccount").val(userInfo.userName);
             body.find("#userPassword").val(userInfo.password);
@@ -188,7 +188,7 @@
           $.post({
             url:"/admin/user/remove",
             data:{
-              userId:obj.data.userId
+              userId:obj.data.user_id
             },
             success:function (resp){
               // console.log(obj.data.userId)

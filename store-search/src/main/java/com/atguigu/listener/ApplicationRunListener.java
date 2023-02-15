@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -105,6 +106,7 @@ public class ApplicationRunListener implements ApplicationRunner {
             CreateIndexRequest createIndexRequest = new CreateIndexRequest("product");
             createIndexRequest.source(createIndex, XContentType.JSON);
             client.indices().create(createIndexRequest,RequestOptions.DEFAULT);
+            log.info(createIndexRequest.toString());
         }
 
         //删除全部数据

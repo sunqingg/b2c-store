@@ -68,7 +68,7 @@
           success:function (layero,index) {
             var body = layer.getChildFrame('body', index);
             //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
-            body.find("#productId").val(product.productID);
+            body.find("#productId").val(product.product_id);
             body.find("#productName").val(product.product_name);
             body.find("#productTitle").val(product.product_title);
             body.find("#productPrice").val(product.product_price);
@@ -90,7 +90,7 @@
           $.post({
             url:"/admin/product/remove",
             data:{
-              productId:obj.data.productID
+              productId:obj.data.product_id
             },
             success:function (resp){
                layer.msg(resp.msg);
@@ -135,7 +135,7 @@
         icon: 'layui-icon-tips'
       }],
       cols: [[
-        {field: 'productID', width: 80, title: 'ID', sort: true},
+        {field: 'product_id', width: 80, title: 'ID', sort: true},
         {field: 'product_name', width: 100, title: '商品名称', sort: true},
         {field: 'category_id', width: 80, title: '类别ID'},
         {field: 'product_title', width: 110, title: '标题'},
@@ -186,7 +186,7 @@
     table.on('toolbar(currentTableFilter)', function (obj) {
       if (obj.event === 'add') {  // 监听添加操作
         var index = layer.open({
-          title: '添加商品',
+          title: '添加用户',
           type: 2,
           shade: 0.2,
           maxmin:true,

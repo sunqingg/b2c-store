@@ -47,7 +47,8 @@ public class SearhServiceImpl implements SearchSearvice {
         }else {
             searchRequest.source().query(QueryBuilders.matchQuery("all",search));
         }
-        searchRequest.source().from(searchProductParam.getCurrentPage());
+//        searchRequest.source().from(searchProductParam.getCurrentPage());
+        searchRequest.source().from((searchProductParam.getCurrentPage()-1 ) * 15 + 1 );
         searchRequest.source().size(searchProductParam.getPageSize());
 
         SearchResponse response = null;

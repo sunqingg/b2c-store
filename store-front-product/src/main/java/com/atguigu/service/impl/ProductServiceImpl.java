@@ -215,6 +215,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         BeanUtils.copyProperties(productSaveParam, product);
         String pictures = productSaveParam.getPictures();
 
+        int rows = productMapper.insert(product);
+
         if (!StringUtils.isEmpty(pictures)) {
             String[] pics = pictures.split("\\+");
             for (String pic : pics) {
@@ -225,9 +227,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
                 log.warn(new ObjectMapper().writeValueAsString(picture));
                 pictureMapper.insert(picture);
             }
-
         }
-        int rows = productMapper.insert(product);
 
         if (rows == 0){
             return R.fail("商品保存失败");

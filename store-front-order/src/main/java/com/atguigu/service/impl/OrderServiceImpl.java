@@ -129,7 +129,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper,Order> implements 
         Long total = orderMapper.selectCount(null);
 
 
-        List<AdminOrderVo> adminOrderVoList = orderMapper.selectAdminOrders(param.getCurrentPage(), param.getPageSize());
+        List<AdminOrderVo> adminOrderVoList = orderMapper.selectAdminOrders(( param.getCurrentPage()-1 )*15+1, param.getPageSize());
 
 
         return R.ok("查询成功",adminOrderVoList,total);

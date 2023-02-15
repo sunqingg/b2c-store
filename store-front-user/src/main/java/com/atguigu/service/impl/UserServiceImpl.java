@@ -12,6 +12,7 @@ import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mysql.jdbc.StringUtils;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +136,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R list(PageParam param) {
-        IPage<User> userIpage = new Page<>(param.getCurrentPage(),param.getPageSize());
+        System.err.println((param.getCurrentPage()-1 ) * 15 + 1);
+        System.err.println(param.getPageSize()* param.getCurrentPage());
+        IPage<User> userIpage = new Page<>((param.getCurrentPage()-1 ) * param.getPageSize() + 1, param.getPageSize());
         IPage<User> page = userMapper.selectPage(userIpage, null);
         List<User> records = page.getRecords();
         log.info(records.toString());
