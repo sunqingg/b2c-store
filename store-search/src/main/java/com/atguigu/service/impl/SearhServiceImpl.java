@@ -1,5 +1,6 @@
 package com.atguigu.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.atguigu.param.SearchProductParam;
 import com.atguigu.pojo.Product;
 import com.atguigu.service.SearchSearvice;
@@ -40,7 +41,8 @@ public class SearhServiceImpl implements SearchSearvice {
         String search = searchProductParam.getSearch();
         SearchRequest searchRequest = new SearchRequest("product");
 
-        if (search == null){
+
+        if (StringUtils.isEmpty(search) || search == null){
             searchRequest.source().query(QueryBuilders.matchAllQuery());
         }else {
             searchRequest.source().query(QueryBuilders.matchQuery("all",search));
@@ -49,9 +51,11 @@ public class SearhServiceImpl implements SearchSearvice {
         searchRequest.source().size(searchProductParam.getPageSize());
 
         SearchResponse response = null;
+        log.warn(searchRequest.toString());
 
         try {
             response = client.search(searchRequest, RequestOptions.DEFAULT);
+            log.warn(response.toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

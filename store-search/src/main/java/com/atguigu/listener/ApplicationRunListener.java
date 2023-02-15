@@ -119,7 +119,7 @@ public class ApplicationRunListener implements ApplicationRunner {
         ObjectMapper objectMapper = new ObjectMapper();
         for (Product product : list) {
             ProductDoc productDoc = new ProductDoc(product);
-            log.info(productDoc.toString());
+            log.info(objectMapper.writeValueAsString(productDoc));
 
             bulkRequest.add(new IndexRequest("product")
                     .id(productDoc.getProductId().toString())

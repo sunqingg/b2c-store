@@ -31,7 +31,7 @@ public class CollectorController {
         return collectorService.remove(collect);
     }
 
-    @PostMapping("remove/bypid")
+    @PostMapping("removeByPid")
     public Object removeByPid(@RequestBody Integer productId){
         return collectorService.removeByPid(productId);
     }

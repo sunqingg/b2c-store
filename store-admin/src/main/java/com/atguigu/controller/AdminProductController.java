@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("prodcut")
+@RequestMapping("product")
 public class AdminProductController {
 
     @Autowired

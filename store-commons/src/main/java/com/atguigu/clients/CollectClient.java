@@ -8,4 +8,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface CollectClient {
     @PostMapping("/collect/removeByPid")
     public Object removeByPid(@RequestBody Integer productId);
+
 }

@@ -6,6 +6,7 @@ import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Product;
 import com.atguigu.service.ProductService;
 import com.atguigu.utils.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -98,7 +99,7 @@ public class ProductController {
 //        return productService.id(integer);
 //    }
     @PostMapping("save")
-    public R save(@RequestBody ProductSaveParam productSaveParam){
+    public R save(@RequestBody ProductSaveParam productSaveParam) throws JsonProcessingException {
         return productService.save(productSaveParam);
     }
 

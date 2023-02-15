@@ -19,6 +19,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -208,10 +210,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
     }
 
     @Override
-    public R save(ProductSaveParam productSaveParam) {
+    public R save(ProductSaveParam productSaveParam) throws JsonProcessingException {
         Product product = new Product();
         BeanUtils.copyProperties(productSaveParam, product);
-        String pictures = productSaveParam.getPicture();
+        String pictures = productSaveParam.getPictures();
 
         if (!StringUtils.isEmpty(pictures)) {
             String[] pics = pictures.split("\\+");
@@ -220,6 +222,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
                 picture.setIntro(null);
                 picture.setProductId(product.getProductId());
                 picture.setProductPicture(pic);
+                log.warn(new ObjectMapper().writeValueAsString(picture));
                 pictureMapper.insert(picture);
             }
 
@@ -260,7 +263,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
 //        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
 //        queryWrapper.eq("")
-        pictureMapper.deleteById(product);
+        pictureMapper.deleteById(product.getProductId());
 
         collectClient.removeByPid(product.getProductId());
 

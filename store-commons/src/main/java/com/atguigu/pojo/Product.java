@@ -18,9 +18,10 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @TableName("product")
 public class Product implements Serializable {
+    public static final Long SerialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
-    @JsonProperty("productID")
+    @JsonProperty("product_id")
     private Integer productId;
 
     @JsonProperty("product_name")

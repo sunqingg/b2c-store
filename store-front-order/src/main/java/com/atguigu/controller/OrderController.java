@@ -2,6 +2,7 @@ package com.atguigu.controller;
 
 import com.atguigu.mapper.OrderMapper;
 import com.atguigu.param.OrderParam;
+import com.atguigu.param.PageParam;
 import com.atguigu.pojo.Order;
 import com.atguigu.service.OrderService;
 import com.atguigu.utils.R;
@@ -10,10 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("order")
@@ -45,5 +43,10 @@ public class OrderController {
             return R.ok("没有需要删除的订单数据");
         }
         return R.fail("订单中有需要删除的商品,删除失败");
+    }
+
+    @GetMapping("pageList")
+    public R pageList(@RequestBody PageParam param) {
+        return orderService.pageList(param);
     }
 }

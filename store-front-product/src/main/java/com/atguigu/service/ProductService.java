@@ -7,6 +7,7 @@ import com.atguigu.pojo.Category;
 import com.atguigu.pojo.Product;
 import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public interface ProductService extends IService<Product> {
 
     Product id(Integer integer);
 
-    R save(ProductSaveParam productSaveParam);
+    R save(ProductSaveParam productSaveParam) throws JsonProcessingException;
 
     R update(Product product);
 
