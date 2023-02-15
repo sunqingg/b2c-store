@@ -136,14 +136,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public R list(PageParam param) {
-        System.err.println((param.getCurrentPage()-1 ) * 15 + 1);
-        System.err.println(param.getPageSize()* param.getCurrentPage());
-        IPage<User> userIpage = new Page<>((param.getCurrentPage()-1 ) * param.getPageSize() + 1, param.getPageSize());
+        System.err.println((param.getCurrentPage() - 1) * param.getPageSize() +1);
+        System.err.println(param.getPageSize());
+        long current = (param.getCurrentPage() - 1) * param.getPageSize() +1;
+        IPage<User> userIpage = new Page<>(16, 15);
         IPage<User> page = userMapper.selectPage(userIpage, null);
+        List<User> users = userMapper.selectUser((param.getCurrentPage() - 1) * 15 + 1, param.getPageSize());
+
         List<User> records = page.getRecords();
         log.info(records.toString());
         long total = page.getTotal();
-        return R.ok("查询成功",records,total);
+        return R.ok("查询成功",users,total);
 
     }
 
