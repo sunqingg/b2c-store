@@ -26,8 +26,10 @@ public class AdminUserServiceImpl extends ServiceImpl<AdminUserMapper, AdminUser
     @Autowired
     UserClient userClient;
 
+
     @Override
     public R login(AdminParam AdminParam) {
+//        System.err.println();
         //密码加密处理
         //代码加密处理,注意加盐,生成常量
         String newPwd = MD5Util.encode(AdminParam.getUserPassword() +

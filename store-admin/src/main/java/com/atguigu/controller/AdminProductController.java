@@ -1,7 +1,6 @@
 package com.atguigu.controller;
 
 import com.atguigu.config.AliyunOSSUtils;
-import com.atguigu.param.AdminProductParam;
 import com.atguigu.param.ProductSaveParam;
 import com.atguigu.param.SearchProductParam;
 import com.atguigu.pojo.Product;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("product")

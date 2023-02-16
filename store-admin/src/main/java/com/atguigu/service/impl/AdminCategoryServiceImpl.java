@@ -6,7 +6,6 @@ import com.atguigu.pojo.Category;
 import com.atguigu.service.AdminCategoryService;
 import com.atguigu.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;

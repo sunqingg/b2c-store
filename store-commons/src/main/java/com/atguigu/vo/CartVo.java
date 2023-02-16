@@ -3,7 +3,6 @@ package com.atguigu.vo;
 import com.atguigu.pojo.Cart;
 import com.atguigu.pojo.Product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

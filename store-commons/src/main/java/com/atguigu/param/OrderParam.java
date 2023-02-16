@@ -1,7 +1,6 @@
 package com.atguigu.param;
 
 import com.atguigu.vo.CartVo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

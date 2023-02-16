@@ -6,8 +6,6 @@ import com.atguigu.pojo.User;
 import com.atguigu.pojo.address;
 import com.atguigu.service.UserService;
 import com.atguigu.utils.R;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

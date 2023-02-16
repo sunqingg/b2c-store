@@ -1,5 +1,6 @@
 package com.atguigu.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.param.AdminParam;
 import com.atguigu.param.PageParam;
 import com.atguigu.pojo.AdminUser;
@@ -11,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +36,7 @@ public class AdminUserController {
             log.info("AdminUserController.login业务,参数异常!");
             return R.fail("登录失败,核心参数为null");
         }
+        System.err.println(JSON.toJSONString(AdminParam));
         //校验验证码
         String varCode = AdminParam.getVerCode();
         String captcha = (String) session.getAttribute("captcha");

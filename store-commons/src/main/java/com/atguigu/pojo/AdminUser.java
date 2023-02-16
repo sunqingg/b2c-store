@@ -1,6 +1,5 @@
 package com.atguigu.pojo;
 
-import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 

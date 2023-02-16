@@ -2,10 +2,7 @@ package com.atguigu.listener;
 
 import com.atguigu.pojo.Product;
 import com.atguigu.pojo.ProductDoc;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.lucene.index.IndexReader;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;

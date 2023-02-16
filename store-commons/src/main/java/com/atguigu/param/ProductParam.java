@@ -1,7 +1,6 @@
 package com.atguigu.param;
 
 import lombok.Data;
-import org.apache.ibatis.javassist.SerialVersionUID;
 
 import java.io.Serializable;
 

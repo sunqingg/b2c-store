@@ -1,6 +1,5 @@
 package com.atguigu.service.impl;
 
-import com.atguigu.constant.UserConstants;
 import com.atguigu.mapper.AddressMapper;
 import com.atguigu.mapper.UserMapper;
 import com.atguigu.param.PageParam;
@@ -12,9 +11,6 @@ import com.atguigu.utils.R;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mysql.jdbc.StringUtils;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.atguigu.constant.UserConstants.USER_SALT;
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 //@Log4j
 @Service
